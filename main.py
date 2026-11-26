@@ -32,6 +32,9 @@ def main() -> int:
     if line.count(".") != 1 or not line.endswith("."):
         print("entry must be exactly one sentence", file=sys.stderr)
         return 1
+    if any(ord(ch) < 0x20 for ch in line):
+        print("entry must not contain a control character", file=sys.stderr)
+        return 1
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
